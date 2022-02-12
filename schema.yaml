@@ -1,0 +1,64 @@
+# Copyright (c) 2020, Oracle and/or its affiliates. All rights reserved.
+# Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
+
+
+title: "Crea dos NSGs que permiten acceso a los servidores WAF"
+stackDescription: "Aprovisiona dos NSG para aceptar conexiones desde los servidores WAF (HTTP y HTTPS)"
+schemaVersion: 1.1.0
+version: "20200301"
+locale: "en"
+
+variableGroups:
+  - title: ${Messages.solutionsHub.generalConfig()}
+    visible: false
+    variables:
+      - compartment_ocid
+      - tenancy_ocid
+      - region
+
+  - title: ${Messages.solutionsHub.requiredConfig()}
+    visible: true
+    variables:
+      - vcn_ocid
+      - subnet_ocid
+      - load_balancer_ocid
+
+variables:
+  compartment_ocid:
+    type: oci:identity:compartment:id
+    # type: string
+    required: true
+    title: ${Messages.solutionsHub.genericVariables.compartment.title()}
+    description: ${Messages.solutionsHub.genericVariables.compartment.description()}
+
+  region:
+    type: oci:identity:region:name
+    required: true
+    title: ${Messages.solutionsHub.genericVariables.region.title()}
+    description: ${Messages.solutionsHub.genericVariables.region.description()}
+
+  vcn_ocid:
+    type: oci:core:vcn:id
+    dependsOn:
+      compartmentId: compartment_ocid
+    required: true
+    default: ""
+    title: ${Messages.solutionsHub.solutions.computeInstance.variables.vcn_ocid.title()}
+    description: ${Messages.solutionsHub.solutions.computeInstance.variables.vcn_ocid.description()}
+
+#  subnet_ocid:
+#    type: oci:core:subnet:id
+ #   dependsOn:
+ #     compartmentId: compartment_ocid
+  #    vcnId: vcn_ocid
+ #   required: true
+ #   title: ${Messages.solutionsHub.solutions.computeInstance.variables.subnet_ocid.title()}
+ #   description: ${Messages.solutionsHub.solutions.computeInstance.variables.subnet_ocid.description()}
+
+#  load_balancer_ocid:
+#    type: oci:loadbalancer:loadbalancer:id
+#    dependsOn:
+#      compartmentId: compartment_ocid
+#    required: false
+#    title: "Load Balancer"
+#    description: "Load Balancer to apply WAF NSG"
